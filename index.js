@@ -33,7 +33,7 @@ class ListPackage {
       for (const key in deps) {
         /@/.test(key) && delete deps[key];
       }
-      return map(deps, (val, key) => `${key}@${val}`);
+      return map(deps, (val, key) => `${key}`);
     });
     return this;
   }
