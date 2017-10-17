@@ -23,7 +23,7 @@ execute in path to contained 'package.json'
 ❯ npmlsp
   [ npmlsp ]
  The command line interface for listing dependencies information from 'package.json'
- None homepage
+ https://github.com/shallwefootball/npmlsp#readme
 
   [ carrot-notes-cli ]
  Developer friendly CLI application for Japanese vocabulary note.
@@ -37,6 +37,6 @@ execute in path to contained 'package.json'
 
  - *this not read node_modules likely npm.
 
-powerful yourself. 💪
+---
 
-© [amos](shallwefootball.com)
+powerful yourself. 💪 © [amos](http://shallwefootball.com)
