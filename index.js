@@ -9,7 +9,11 @@ const {readJson} = require('fs-extra');
 const map = require('lodash/map');
 const ora = require('ora');
 const meow = require('meow');
+const updateNotifier = require('update-notifier');
 require('colors');
+
+const pkg = require('./package.json');
+updateNotifier({pkg}).notify();
 
 const exec$ = Observable.bindNodeCallback(exec);
 const readJson$ = Observable.bindNodeCallback(readJson);
