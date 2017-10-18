@@ -33,9 +33,13 @@ execute in path to contained 'package.json'
  .
 ```
 
+![execute](https://raw.githubusercontent.com/shallwefootball/npmlsp/master/execute.gif)
+
+
 ## Note
 
  - *this not read node_modules likely npm.
+ - listed except `@types/` packages.
 
 ---
 
