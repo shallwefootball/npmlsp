@@ -2,12 +2,14 @@
 
 # npmlsp
 
+[![CircleCI](https://circleci.com/gh/shallwefootball/npmlsp.svg?style=svg)](https://circleci.com/gh/shallwefootball/npmlsp)
+
 > Listing dependencies in node project.
 
 ## Motivation
 
-OSS have many dependencies. But we don't know all dependencies especially junior developer in that OSS.
-So we need to know what used in OSS with other OSS. shallowly. 😛
+OSS have many dependencies. But we don't know all dependencies especially junior developer in that.
+So we need to know what used in OSS with others. shallowly. 😛
 
 ## install
 
@@ -38,8 +40,8 @@ execute in path to contained 'package.json'
 
 ## Note
 
- - *this not read node_modules likely npm.
- - listed except `@types/` packages.
+ - *this cli not read node_modules likely npm.
+ - listed except `@somescope/package`.
 
 ---
 
