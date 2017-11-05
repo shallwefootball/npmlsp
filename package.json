@@ -1,6 +1,6 @@
 {
   "name": "npmlsp",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "MIT",
   "description": "The command line interface for listing dependencies information from 'package.json'",
   "homepage": "https://github.com/shallwefootball/npmlsp",
