@@ -31,7 +31,7 @@ class ListCreator {
   readPackage() {
     this.spinner.start('Reading \'package.json\'...');
     this.$ = this.$.mergeMap(({dependencies, devDependencies}) => {
-      const deps = Object.assign(dependencies, devDependencies);
+      const deps = Object.assign(dependencies = {}, devDependencies = {});
       for (const key in deps) {
         /@/.test(key) && delete deps[key];
       };
