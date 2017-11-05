@@ -2,6 +2,8 @@
 
 # npmlsp
 
+[![CircleCI](https://circleci.com/gh/shallwefootball/npmlsp.svg?style=svg)](https://circleci.com/gh/shallwefootball/npmlsp)
+
 > Listing dependencies in node project.
 
 ## Motivation
