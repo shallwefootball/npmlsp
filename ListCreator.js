@@ -56,9 +56,8 @@ class ListCreator {
     this.$ = this.$
       .map(({name, description, homepage}) => {
         return [
-          `[ ${name} ]`,
-          ` ${chalk.gray(description)}`,
-          ` ${homepage || 'None homepage'}`
+          `${name}  ${chalk.gray(description)}`,
+          `  ${chalk.blue.underline(homepage) || 'None homepage'}`
         ].join(EOL) + EOL;
       });
     return this;

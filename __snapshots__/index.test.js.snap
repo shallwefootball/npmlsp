@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ListCreator out 1`] = `
-"[ npmlsp ]
- [90mThe command line interface for listing dependencies information from package.json[39m
- https://github.com/shallwefootball/npmlsp
+"npmlsp  [90mThe command line interface for listing dependencies information from package.json[39m
+  [34m[4mhttps://github.com/shallwefootball/npmlsp[24m[39m
 "
 `;
