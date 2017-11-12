@@ -6,6 +6,7 @@
   "homepage": "https://github.com/shallwefootball/npmlsp",
   "bin": "index.js",
   "author": "amos",
+  "preferGlobal": true,
   "scripts": {
     "test": "jest --runInBand --coverage",
     "test:dev": "jest --watch --coverage"
