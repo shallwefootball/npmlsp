@@ -3,7 +3,7 @@
 const {ListCreator} = require('./ListCreator');
 
 new ListCreator()
-  .readPackage()
+  .filterPackages()
   .runNpm()
   .out()
   .subscribe(() => {}, () => {

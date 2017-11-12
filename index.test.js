@@ -17,14 +17,14 @@ describe('ListCreator', () => {
   beforeEach(() => {
     lister = new ListCreator();
   });
-  it('readPackage', done => {
-    lister.$ = Observable.of({
+  it('filterPackages', done => {
+    lister.packs$ = Observable.of({
       dependencies: {
         '@types/rx': '4.2.3',
         [NPMLSP]: '0.1.2'
       }
     });
-    lister.readPackage().$.subscribe(name => {
+    lister.filterPackages().$.subscribe(name => {
       expect(name).toBe(NPMLSP);
     }, null, done);
   });

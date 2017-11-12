@@ -1,42 +1,70 @@
 const {resolve} = require('path');
-const {EOL} = require('os');
+const {EOL, homedir} = require('os');
 
 const {Observable} = require('rxjs');
 const {exec} = require('child_process');
-const {readJson} = require('fs-extra');
+const {readJson, writeJson, ensureDir, pathExists} = require('fs-extra');
 const map = require('lodash/map');
+const difference = require('lodash/difference');
+const intersection = require('lodash/intersection');
 const ora = require('ora');
 const meow = require('meow');
 const updateNotifier = require('update-notifier');
 const chalk = require('chalk');
 
-const pkg = require('./package.json');
-updateNotifier({pkg}).notify();
-
 const exec$ = Observable.bindNodeCallback(exec);
 const readJson$ = Observable.bindNodeCallback(readJson);
+const writeJson$ = Observable.bindNodeCallback(writeJson);
+const ensureDir$ = Observable.bindNodeCallback(ensureDir);
+const pathExists$ = Observable.bindNodeCallback(pathExists);
 
+updateNotifier({pkg: require('./package.json')}).notify();
+const HOME = homedir();
+const PATH_CONFIG = resolve(HOME, '.config/npmlsp');
+const PATH_SKIP = resolve(PATH_CONFIG, 'skip.json');
+
+const exists$ = Observable
+  .concat(ensureDir$(PATH_CONFIG), pathExists$(PATH_SKIP))
+  .last();
+const writeConfig$ = Observable
+  .concat(writeJson$(PATH_SKIP, []), Observable.of([]))
+  .last();
+const readConfig$ = readJson$(PATH_SKIP);
 const helpText = `
   Usage
-    $ npmlsp 
+    $ npmlsp
 `;
 
 class ListCreator {
   constructor() {
     this.spinner = ora();
     this.cli = meow(helpText);
-    this.$ = readJson$(resolve(process.cwd(), 'package.json'));
+    this.packs$ = readJson$(resolve(process.cwd(), 'package.json'));
+    this.skips$ = exists$.mergeMap(exists => {
+      return exists ? readConfig$ : writeConfig$;
+    });
+    this.packs = 0;
+    this.skipped = 0;
+    this.filteredPacks = 0;
   }
 
-  readPackage() {
+  filterPackages() {
     this.spinner.start('Reading \'package.json\'...');
-    this.$ = this.$.mergeMap(({dependencies = {}, devDependencies = {}}) => {
-      const deps = Object.assign(dependencies, devDependencies);
-      for (const key in deps) {
-        /@/.test(key) && delete deps[key];
-      };
-      return map(deps, (val, key) => `${key}`);
-    });
+    this.$ = Observable.zip(
+      this.packs$, this.skips$,
+      ({dependencies = {}, devDependencies = {}}, skips) => {
+        const deps = Object.assign(dependencies, devDependencies);
+        for (const key in deps) {
+          /@/.test(key) && delete deps[key];
+        };
+        const packs = map(deps, (val, key) => key);
+        const filteredPacks = difference(packs, skips);
+        this.packs = packs.length;
+        this.filteredPacks = filteredPacks.length;
+        this.skipped = intersection(packs, skips).length;
+        return filteredPacks;
+      })
+      .mergeMap(pack => pack);
     return this;
   }
 
@@ -72,7 +100,12 @@ class ListCreator {
       this.spinner.fail(err.stack);
       errHandler(err);
     }, () => {
-      this.spinner.succeed('Done.');
+      const {spinner, filteredPacks, skipped, packs} = this;
+      spinner.succeed(
+        chalk.yellow(`skipped ${skipped} `) +
+        chalk.green(`filtered ${filteredPacks} `) +
+        `total ${packs}`
+      );
       done();
     });
     return this;
